@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Beamer Draw</title>
+  <title>TraceDraw</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <video id="camera" autoplay playsinline></video>
 
   <div id="overlay-container">
@@ -16,22 +15,7 @@
   </div>
 
   <div class="topbar">
-    <h1>Beamer Draw</h1>
-  </div>
-
-  <div id="cropModal" class="hidden">
-    <div class="crop-box">
-      <h2>Bild zuschneiden</h2>
-
-      <div class="crop-preview-wrapper">
-        <canvas id="cropCanvas"></canvas>
-      </div>
-
-      <div class="crop-buttons">
-        <button id="cropApply">Übernehmen</button>
-        <button id="cropCancel">Abbrechen</button>
-      </div>
-    </div>
+    <h1>TraceDraw</h1>
   </div>
 
   <div class="controls">
@@ -49,7 +33,6 @@
       <button id="rotateLeft">↺</button>
       <button id="rotateRight">↻</button>
       <button id="flashToggle">🔦</button>
-      <button id="focusBtn">AF</button>
       <button id="resetBtn">Reset</button>
     </div>
   </div>
