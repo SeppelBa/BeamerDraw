@@ -1,6 +1,6 @@
 {
-  "name": "TraceDraw",
-  "short_name": "TraceDraw",
+  "name": "Beamer Draw",
+  "short_name": "BeamerDraw",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",
