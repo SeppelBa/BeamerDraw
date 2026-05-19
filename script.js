@@ -13,16 +13,27 @@ let rotation = 0;
 
 async function startCamera() {
   try {
+    // 1. Kamera fest auf die Hauptlinse erzwingen (verhindert Linsensprung)
     stream = await navigator.mediaDevices.getUserMedia({
       video: {
-        facingMode: { ideal: "environment" }
+        facingMode: { exact: "environment" },
+        width: { ideal: 1920 },
+        height: { ideal: 1080 }
       },
       audio: false
     });
 
     video.srcObject = stream;
+
+    // 2. Fokus auf manuell setzen, um "Pumpen" des Bildes zu verhindern
+    const track = stream.getVideoTracks()[0];
+    const caps = track.getCapabilities ? track.getCapabilities() : {};
+    if (caps.focusMode && caps.focusMode.includes('manual')) {
+        await track.applyConstraints({ advanced: [{ focusMode: 'manual' }] });
+    }
+
   } catch (err) {
-    alert("Kamera konnte nicht gestartet werden.");
+    alert("Kamera konnte nicht gestartet werden (oder Linsenzugriff verweigert).");
     console.error(err);
   }
 }
@@ -70,22 +81,18 @@ document.getElementById('resetBtn').onclick = () => {
 document.getElementById('flashToggle').onclick = async () => {
   try {
     const track = stream.getVideoTracks()[0];
-    const capabilities = track.getCapabilities();
+    const capabilities = track.getCapabilities ? track.getCapabilities() : {};
 
     if (!capabilities.torch) {
-      alert("Taschenlampe wird auf diesem Gerät nicht unterstützt.");
+      alert("Taschenlampe nicht unterstützt.");
       return;
     }
 
     flashlightOn = !flashlightOn;
-
-    await track.applyConstraints({
-      advanced: [{ torch: flashlightOn }]
-    });
+    await track.applyConstraints({ advanced: [{ torch: flashlightOn }] });
 
   } catch (err) {
     console.error(err);
-    alert("Taschenlampe konnte nicht aktiviert werden.");
   }
 };
 
